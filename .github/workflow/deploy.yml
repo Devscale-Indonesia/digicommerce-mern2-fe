@@ -1,0 +1,13 @@
+name: CI/CD Pipeline Frontend App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Logging
+        run: echo "Frontend Deployed!!!!"
