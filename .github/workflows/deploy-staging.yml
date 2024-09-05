@@ -41,3 +41,9 @@ jobs:
 
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
+
+      - name: Deploy to Server
+        run: |
+          ssh ${{ secrets.FRONTEND_SERVER_USER }}@${{ secrets.FRONTEND_SERVER_IP }} "
+            docker pull indrazm/digicommerce-fe
+            "
