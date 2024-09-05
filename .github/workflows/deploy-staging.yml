@@ -1,0 +1,24 @@
+name: CI/CD Pipeline Frontend App
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Logging
+        run: echo "Start to deploy Staging..."
+
+      - name: Checkout Staging branch
+        uses: actions/checkout@v3
+
+      - name: Setup Nodejs
+        run: |
+          npm install -g pnpm@latest
+          pnpm install
+
+      - name: Check Code Linter
+        run: pnpm lint
