@@ -31,3 +31,13 @@ jobs:
 
       - name: Push Docker Image to Hub
         run: docker push indrazm/digicommerce-fe
+
+      - name: Setup SSH to Server
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.FRONTEND_SERVER_IP }} >> ~/.ssh/known_hosts
+
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
