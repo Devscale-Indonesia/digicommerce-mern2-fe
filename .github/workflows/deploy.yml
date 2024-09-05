@@ -10,4 +10,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Logging
-        run: echo "Frontend Deployed!!!!"
+        run: echo "Start to deploy Production..."
+
+      - name: Checkout Production
+        uses: actions/checkout@v3
+
+      - name: Setup Nodejs
+        run: |
+          npm install -g pnpm@latest
+          pnpm install
+
+      - name: Check Code Linter
+        run: pnpm lint
+
+      - name: Build Docker Image
+        run: docker build -t indrazm/digicommerce-fe .
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Push Docker Image to Hub
+        run: docker push indrazm/digicommerce-fe
+
+      - name: Setup SSH to Server
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.FRONTEND_SERVER_IP }} >> ~/.ssh/known_hosts
+
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+
+      - name: Deploy to Server
+        run: |
+          ssh ${{ secrets.FRONTEND_SERVER_USER }}@${{ secrets.FRONTEND_SERVER_IP }} "
+            docker pull indrazm/digicommerce-fe
+            docker stop digicommerce-fe
+            docker rm digicommerce-fe
+            docker run -d --name digicommerce-fe -p 4173:4173 indrazm/digicommerce-fe
+            "
