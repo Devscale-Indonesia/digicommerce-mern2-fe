@@ -22,3 +22,9 @@ jobs:
 
       - name: Check Code Linter
         run: pnpm lint
+
+      - name: Build Docker Image
+        run: docker build -t indrazm/digicommerce-fe .
+
+      - name: Push Docker Image to Hub
+        run: docker push indrazm/digicommerce-fe
