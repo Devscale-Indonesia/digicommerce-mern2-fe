@@ -25,7 +25,7 @@ export const FormCreateproduct = () => {
             <Select caption="Category" options={CATEGORIES} />
             <Button variant="outline">Add Images</Button>
             <Button variant="outline">Add Downloadable Files</Button>
-            <Input placeholder="Tags" value={tag} onChange={handleChangeTag} onKeyUp={handleAddTag} />
+            <Input name="tag" placeholder="Tags" value={tag} onChange={handleChangeTag} onKeyUp={handleAddTag} />
             <ProductTagsRenderer tags={tags} handleDeleteTag={handleDeleteTag} />
             <Button>Submit Product</Button>
           </section>
@@ -43,7 +43,7 @@ const ProductTagsRenderer = ({
   handleDeleteTag: (index: number) => void;
 }) => {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div role="product-tags" className="flex flex-wrap gap-2">
       {tags.map((tag, index) => (
         <div
           onClick={() => handleDeleteTag(index)}
