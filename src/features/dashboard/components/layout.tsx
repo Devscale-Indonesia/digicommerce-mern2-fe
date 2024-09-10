@@ -18,9 +18,11 @@ export const LayoutDashboard = (props: LayoutProps) => {
           <Menu label="Orders" href="/dashboard/orders" icon={<Receipt size={18} />} />
           <Menu label="Customers" href="/dashboard/customers" icon={<Users size={18} />} />
         </section>
-        <Button variant="secondary" startContent={<LogOut size={18} />}>
-          Logout
-        </Button>
+        <div>
+          <Button variant="secondary" startContent={<LogOut size={18} />}>
+            Logout
+          </Button>
+        </div>
       </aside>
       {props.isCentered ? (
         <main className="w-[calc(100vw-240px)] p-6">
